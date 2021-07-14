@@ -1,11 +1,13 @@
 @extends('layouts.app')
 
 @section('content')
-@if (session('status'))
-    <div class="alert alert-success">
-        {{ session('status') }}
-    </div>
+
+@if(Session::has('message'))
+<div style="position:fixed;z-index: 999; top:0; left:50%;transform:translateX(-50%);" class="alert {{ Session::get('alert-class', 'alert-info') }}" id="alert" role="alert">
+    {{ Session::get('message') }}
+</div>
 @endif
+
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-11">
@@ -33,7 +35,7 @@
                         <hr>
                         <br>
                         <div class="form-group" id="add_to_me">
-                            <label for="lieferschein">Gemüsering Lieferscheine:</label>
+                            <label for="lieferschein">Gemüsering Lieferschein(e):</label>
                             <div class="input-group">
                                 <input required type="number" class="form-control" min="100000" max="999999" placeholder="Lieferscheinnummer" aria-label="Lieferscheinnummer" name="lieferscheine[]" aria-describedby="basic-addon2">
                             </div>
@@ -69,5 +71,11 @@
     function delCode(i) {
         document.getElementById(i).remove();
     }
+
+    window.setTimeout(function() {
+    $(".alert").fadeTo(500, 0).slideUp(500, function(){
+        $(this).remove(); 
+        });
+    }, 4000);
 </script>
 @endsection

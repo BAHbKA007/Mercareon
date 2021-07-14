@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Buch_Kopf;
 use App\Models\Buch_Positionen;
 use Illuminate\Http\Request;
+use Session;
 
 class BuchPositionenController extends Controller
 {
@@ -42,14 +43,19 @@ class BuchPositionenController extends Controller
         $buch_kopf->buchungsnummer = $request->buchungsnummer;
         $buch_kopf->save();
         $id = $buch_kopf->id;
+        $i = 0;
 
         foreach ($request->lieferscheine as $item) {
             $buch_pos = new Buch_Positionen;
             $buch_pos->buch_kopf_id = $id;
             $buch_pos->ls_nummer = $item;
             $buch_pos->save();
+            $i++;
         }
         
+        Session::flash('message', "$i Lieferschein(e) wurden erfolgreich erfasst!"); 
+        Session::flash('alert-class', 'alert-success'); 
+
         return back();
     }
 
