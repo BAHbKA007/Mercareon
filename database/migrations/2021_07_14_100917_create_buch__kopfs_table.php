@@ -17,7 +17,7 @@ class CreateBuchKopfsTable extends Migration
             $table->id();
             $table->char('name', 100);
             $table->char('spedition', 100);
-            $table->integer("buchungsnummer");
+            $table->bigInteger("buchungsnummer");
             $table->timestamps();
         });
     }
