@@ -35,13 +35,13 @@
                         <hr>
                         <br>
                         <div class="form-group" id="add_to_me">
-                            <label for="lieferschein">Gemüsering Lieferschein(e):</label>
+                            <div style="margin-bottom: 10px; float:right">
+                                <button style="float: right;" class="btn btn-outline-success" type="button" onclick="addCode(); return false;">hinzufügen</button>
+                            </div>
+                            <label style="margin-top: 10px; float:left" for="lieferschein">Gemüsering Lieferschein(e):</label>
                             <div class="input-group">
                                 <input required type="number" class="form-control" min="100000" max="999999" placeholder="Lieferscheinnummer" aria-label="Lieferscheinnummer" name="lieferscheine[]" aria-describedby="basic-addon2">
                             </div>
-                        </div>
-                        <div style="margin-top: 20px">
-                            <button style="float: right;" class="btn btn-outline-success" type="button" onclick="addCode(); return false;">hinzufügen</button>
                         </div>
                         <br><br>
                         <button type="submit" class="btn btn-primary">absenden</button>
@@ -59,7 +59,7 @@
         var d = document.getElementById("add_to_me");
         var htmlObject = document.createElement('div');
 
-        var textnode =      '<div class="input-group" id="' + i + '" >' +
+        var textnode =      '<div style="margin-top:10px" class="input-group" id="' + i + '" >' +
                                 '<input required type="number" class="form-control" min="100000" max="999999" placeholder="Lieferscheinnummer" aria-label="Lieferscheinnummer" name="lieferscheine[]" aria-describedby="basic-addon2">' +
                                 '<div class="input-group-append">' +
                                     '<button type="button" class="btn btn-outline-danger" onclick="delCode(' + i + ')">entfernen</button>' +
