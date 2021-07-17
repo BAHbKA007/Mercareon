@@ -26,3 +26,5 @@ Auth::routes([
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::post('/', [App\Http\Controllers\BuchPositionenController::class, 'store']);
+
+Route::post('/qweqwe', [App\Http\Controllers\GromasLieferscheinController::class, 'push_to_database']);
