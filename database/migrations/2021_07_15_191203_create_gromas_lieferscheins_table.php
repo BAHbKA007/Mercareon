@@ -15,8 +15,10 @@ class CreateGromasLieferscheinsTable extends Migration
     {
         Schema::create('gromas_lieferscheins', function (Blueprint $table) {
             $table->id();
-            $table->unsignedMediumInteger('ls_nummer');
-            $table->unsignedSmallInteger('mandant');
+            $table->unsignedMediumInteger('lieferschein');
+            $table->string('kundennummer', 6);
+            $table->string('kundenname', 35);
+            $table->string('bestellnummer', 10);
             $table->date('liefertag');
             $table->timestamps();
         });
