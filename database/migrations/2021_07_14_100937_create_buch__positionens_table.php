@@ -16,7 +16,7 @@ class CreateBuchPositionensTable extends Migration
         Schema::create('buch__positionens', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('buch_kopf_id');
-            $table->mediumInteger('ls_nummer');
+            $table->unsignedMediumInteger('ls_nummer');
             $table->timestamps();
             
             $table->foreign('buch_kopf_id')->references('id')->on('buch__kopfs')->onDelete('cascade');;

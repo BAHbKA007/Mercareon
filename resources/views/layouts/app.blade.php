@@ -36,7 +36,10 @@
                     <ul class="navbar-nav mr-auto">
                         @auth
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('home') }}">Übersicht</a>
+                                <a class="nav-link" href="{{ route('home') }}">Dashboard</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('uebersicht') }}">alle Einträge</a>
                             </li>
                         @endauth
                     </ul>

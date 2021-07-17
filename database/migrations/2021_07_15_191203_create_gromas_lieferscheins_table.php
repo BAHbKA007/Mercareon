@@ -14,8 +14,7 @@ class CreateGromasLieferscheinsTable extends Migration
     public function up()
     {
         Schema::create('gromas_lieferscheins', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedMediumInteger('lieferschein');
+            $table->unsignedMediumInteger('lieferschein')->primary();
             $table->string('kundennummer', 6);
             $table->string('kundenname', 35);
             $table->string('bestellnummer', 10);
