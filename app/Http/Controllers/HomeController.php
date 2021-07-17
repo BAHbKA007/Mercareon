@@ -45,7 +45,7 @@ class HomeController extends Controller
                                     FROM gromas_lieferscheins 
                                     LEFT JOIN buch__positionens ON buch__positionens.ls_nummer = gromas_lieferscheins.lieferschein 
                                     LEFT JOIN buch__kopfs ON buch__kopfs.id = buch__positionens.buch_kopf_id')[0];
-        $ls_prozent = ($ls_gesamt->LS == 0) ? round($ls_gemeldet->LS / ($ls_gesamt->LS / 100), 2) : 0;
+        $ls_prozent = ($ls_gesamt->LS != 0) ? round($ls_gemeldet->LS / ($ls_gesamt->LS / 100), 2) : 0;
         $ls_nach_lager = DB::select("SELECT 
                                         REPLACE(REPLACE(gromas_lieferscheins.kundenname, 'Kaufland ', ''), ' ab 03/19', '') AS Kunde,
                                         COUNT(lieferschein) AS 'LS'
