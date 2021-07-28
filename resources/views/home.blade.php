@@ -31,10 +31,15 @@
                                     <h5 class="card-title">fehlende Meldungen nach Lager</h5>
                                     <canvas id="bar-chart"></canvas>
                                 </div>
+                            </div><br>
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title">prozentual gemeldet nach Lieferant</h5>
+                                    <canvas id="bar-chart-direktlieferant"></canvas>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    
                 </div>
             </div>
         </div>
@@ -68,6 +73,28 @@
                     label: "fehlende Meldungen",
                     backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
                     data: {!!$barchart_count!!}
+                }
+            ]
+        },
+        options: {
+            indexAxis: 'y',
+            legend: { display: false },
+            title: {
+                display: false,
+                text: 'Predicted world population (millions) in 2050'
+            }
+        }
+    });
+
+    new Chart(document.getElementById("bar-chart-direktlieferant"), {
+        type: 'bar',
+        data: {
+        labels: {!!$barchart_direktlieferant_namen!!},
+        datasets: [
+                {
+                    label: "Meldungen in Prozent",
+                    backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
+                    data: {!!$barchart_direktlieferant_prozent!!}
                 }
             ]
         },

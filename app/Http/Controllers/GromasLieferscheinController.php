@@ -16,17 +16,27 @@ class GromasLieferscheinController extends Controller
         foreach ($gromas_data_array as $item){
             $lieferschein = gromas_lieferschein::find($item->lieferschein);
 
-            if (is_null(gromas_lieferschein::find($item->lieferschein))){
+            if (is_null($lieferschein)){
                 $new_lieferschein = new gromas_lieferschein;
                 $new_lieferschein->lieferschein = $item->lieferschein;
                 $new_lieferschein->kundennummer = $item->kundennummer;
                 $new_lieferschein->kundenname = $item->kundenname;
                 $new_lieferschein->bestellnummer = $item->bestellnummer;
                 $new_lieferschein->liefertag = $item->liefertag;
+                $new_lieferschein->direktlieferant_nummer = $item->direktlieferant;
+                $new_lieferschein->direktlieferant_name = $item->direktlieferant_nr;
                 $new_lieferschein->save();
-                $i++;
+            } else {
+                $lieferschein->kundennummer = $item->kundennummer;
+                $lieferschein->kundenname = $item->kundenname;
+                $lieferschein->bestellnummer = $item->bestellnummer;
+                $lieferschein->liefertag = $item->liefertag;
+                $lieferschein->direktlieferant_nummer = $item->direktlieferant;
+                $lieferschein->direktlieferant_name = $item->direktlieferant_nr;
+                $lieferschein->save();
             }
-
+            
+            $i++;
         }
 
         return "Vorgänge verarbeitet: $i";

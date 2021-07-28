@@ -56,6 +56,45 @@ class HomeController extends Controller
                                     GROUP BY gromas_lieferscheins.kundenname
                                     ORDER BY 1");
 
+        $prozentual_gemeldet_nach_direktlieferant = DB::select("SELECT 
+                                                                    *,
+                                                                    ROUND( 100 - (temp.anzahl / (temp.gesamt / 100)), 2) AS Prozent
+                                                                FROM
+                                                                (SELECT 
+                                                                    CASE WHEN 
+                                                                        LS.direktlieferant_name = '' 
+                                                                        THEN 'Gemüsering' ELSE LS.direktlieferant_name 
+                                                                    END AS lieferant,
+                                                                    LS.direktlieferant_nummer AS Direktnummer,
+                                                                    COUNT(LS.direktlieferant_name) AS gesamt,
+                                                                        (SELECT COUNT(gromas_lieferscheins.direktlieferant_name) 
+                                                                        FROM gromas_lieferscheins 
+                                                                        LEFT JOIN buch__positionens ON buch__positionens.ls_nummer = gromas_lieferscheins.lieferschein
+                                                                        LEFT JOIN buch__kopfs ON buch__kopfs.id = buch__positionens.buch_kopf_id
+                                                                        WHERE gromas_lieferscheins.direktlieferant_nummer = Direktnummer AND buch__kopfs.buchungsnummer IS NULL) AS anzahl
+                                                                FROM gromas_lieferscheins AS LS
+                                                                LEFT JOIN buch__positionens ON buch__positionens.ls_nummer = LS.lieferschein
+                                                                LEFT JOIN buch__kopfs ON buch__kopfs.id = buch__positionens.buch_kopf_id
+                                                                GROUP BY lieferant, Direktnummer) temp
+                                                                ORDER BY Prozent DESC");
+
+
+        # erstellen BarChart Strings mit Namen der Direktlieferanten
+        $barchart_direktlieferant_namen = "[";
+        foreach ($prozentual_gemeldet_nach_direktlieferant as $item) {
+            $barchart_direktlieferant_namen = $barchart_direktlieferant_namen . "\"" . $item->lieferant . "\",";
+        };
+        $barchart_direktlieferant_namen = substr($barchart_direktlieferant_namen, 0, -1);
+        $barchart_direktlieferant_namen = $barchart_direktlieferant_namen."]";
+
+        # erstellen BarChart Strings mit Prozenten der Direktlieferanten
+        $barchart_direktlieferant_prozent = "[";
+        foreach ($prozentual_gemeldet_nach_direktlieferant as $item) {
+            $barchart_direktlieferant_prozent = $barchart_direktlieferant_prozent . "\"" . $item->Prozent . "\",";
+        };
+        $barchart_direktlieferant_prozent = substr($barchart_direktlieferant_prozent, 0, -1);
+        $barchart_direktlieferant_prozent = $barchart_direktlieferant_prozent."]";
+
         # erstellen BarChart Strings mit Kundennamen
         $barchart_kundennamen = "[";
         foreach ($ls_nach_lager as $item) {
@@ -78,7 +117,9 @@ class HomeController extends Controller
             'ls_prozent' => $ls_prozent,
             'barchart_kundennamen' => $barchart_kundennamen,
             'barchart_count' => $barchart_count,
-            'prozent_color' => get_color($ls_prozent)
+            'prozent_color' => get_color($ls_prozent),
+            'barchart_direktlieferant_namen' => $barchart_direktlieferant_namen,
+            'barchart_direktlieferant_prozent' => $barchart_direktlieferant_prozent
         ]);
     }
 
