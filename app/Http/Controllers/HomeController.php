@@ -126,7 +126,7 @@ class HomeController extends Controller
     public function uebersicht()
     {
         $lieferscheine = DB::table('gromas_lieferscheins')
-                ->select('lieferschein', 'kundennummer', 'kundenname', 'bestellnummer', 'liefertag', 'name', 'spedition', 'buchungsnummer')
+                ->select('lieferschein', 'kundennummer', 'kundenname', 'bestellnummer', 'liefertag', 'name', 'spedition', 'buchungsnummer', 'direktlieferant_nummer', 'direktlieferant_name')
                 ->leftJoin('buch__positionens', 'buch__positionens.ls_nummer', '=', 'gromas_lieferscheins.lieferschein')
                 ->leftJoin('buch__kopfs', 'buch__kopfs.id', '=', 'buch__positionens.buch_kopf_id')
                 ->orderBy('liefertag', 'desc')

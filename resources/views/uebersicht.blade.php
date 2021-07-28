@@ -18,6 +18,7 @@
                                 <th scope="col">Spedition</th>
                                 <th scope="col">Bearbeiter</th>
                                 <th scope="col">Buchungsnummer</th>
+                                <th scope="col">Direktlieferant</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -31,6 +32,7 @@
                                     <td>{{ $lieferschein->spedition }}</td>
                                     <td>{{ $lieferschein->name }}</td>
                                     <td>{{ $lieferschein->buchungsnummer }}</td>
+                                    <td>{{ $lieferschein->direktlieferant_nummer }} {{ $lieferschein->direktlieferant_name }}</td>
                                 </tr>
                             @endforeach
                         </tbody>
