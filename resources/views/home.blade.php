@@ -18,7 +18,7 @@
                             <label for="inputPassword4" class="form-label">bis:</label>
                             <input type="date" class="form-control" id="bis" name="bis" {{$bis != '2999-01-01' ? "value=$bis" : ''}}>
                         </div>
-                        <div class="col-12" style="margin-top: 10px;">
+                        <div class="col-12" style="margin-top: 20px;">
                             <button type="submit" class="btn btn-primary">eingrenzen</button>
                         </div>
                     </form>
@@ -34,7 +34,7 @@
 
                     <div class="row">
                         <div class="col-sm-6">
-                            <div class="card" style="margin-bottom: 10px">
+                            <div class="card" style="margin-bottom: 20px">
                                 <div class="card-body">
                                     <h5 class="card-title">gemeldete Lieferscheine</h5>
                                     <h1 style="color:{{$prozent_color}}" class="card-title">{{$ls_prozent}}%</h1>
@@ -43,7 +43,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-sm-6" style="margin-bottom: 10px">
+                        <div class="col-sm-6" style="margin-bottom: 20px">
                             <div class="card">
                                 <div class="card-body">
                                     <h5 class="card-title">fehlende Meldungen nach Lager</h5>
@@ -58,6 +58,26 @@
                             <canvas id="bar-chart-direktlieferant"></canvas>
                         </div>
                     </div>
+                    <table class="table table-striped" style="margin-top: 20px">
+                        <thead>
+                            <tr>
+                                <th scope="col">Lieferant</th>
+                                <th scope="col">Gesamt</th>
+                                <th scope="col">fehlen</th>
+                                <th scope="col">Prozent</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($prozentual_gemeldet_nach_direktlieferant as $item)
+                                <tr>
+                                    <th scope="row">{{$item->lieferant}}</th>
+                                    <td>{{$item->gesamt}}</td>
+                                    <td>{{$item->anzahl}}</td>
+                                    <td>{{$item->Prozent}} %</td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>

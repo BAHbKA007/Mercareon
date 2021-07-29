@@ -129,7 +129,8 @@ class HomeController extends Controller
             'barchart_direktlieferant_namen' => $barchart_direktlieferant_namen,
             'barchart_direktlieferant_prozent' => $barchart_direktlieferant_prozent,
             'von' => $von,
-            'bis' => $bis
+            'bis' => $bis,
+            'prozentual_gemeldet_nach_direktlieferant' => $prozentual_gemeldet_nach_direktlieferant
         ]);
     }
 
