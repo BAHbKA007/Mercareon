@@ -22,8 +22,11 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index()
+    public function index(Request $request)
     {
+        $von = isset($request->von) ? $request->von : '1970-01-01';
+        $bis = isset($request->bis) ? $request->bis : '2999-01-01';
+
         function get_color($zahl){
             if ($zahl > 0 and $zahl <= 33) {
                 return "red";
@@ -39,12 +42,14 @@ class HomeController extends Controller
                                     FROM gromas_lieferscheins 
                                     LEFT JOIN buch__positionens ON buch__positionens.ls_nummer = gromas_lieferscheins.lieferschein 
                                     LEFT JOIN buch__kopfs ON buch__kopfs.id = buch__positionens.buch_kopf_id 
-                                    WHERE buch__kopfs.buchungsnummer IS NOT NULL')[0];
+                                    WHERE buch__kopfs.buchungsnummer IS NOT NULL
+                                    AND gromas_lieferscheins.liefertag BETWEEN :von AND :bis',  ["von" => $von, "bis" => $bis])[0];
         $ls_gesamt = DB::select('   SELECT 
                                         COUNT(lieferschein) AS "LS" 
                                     FROM gromas_lieferscheins 
                                     LEFT JOIN buch__positionens ON buch__positionens.ls_nummer = gromas_lieferscheins.lieferschein 
-                                    LEFT JOIN buch__kopfs ON buch__kopfs.id = buch__positionens.buch_kopf_id')[0];
+                                    LEFT JOIN buch__kopfs ON buch__kopfs.id = buch__positionens.buch_kopf_id
+                                    WHERE gromas_lieferscheins.liefertag BETWEEN :von AND :bis',  ["von" => $von, "bis" => $bis])[0];
         $ls_prozent = ($ls_gesamt->LS != 0) ? round($ls_gemeldet->LS / ($ls_gesamt->LS / 100), 2) : 0;
         $ls_nach_lager = DB::select("SELECT 
                                         REPLACE(REPLACE(gromas_lieferscheins.kundenname, 'Kaufland ', ''), ' ab 03/19', '') AS Kunde,
@@ -53,8 +58,9 @@ class HomeController extends Controller
                                     LEFT JOIN buch__positionens ON buch__positionens.ls_nummer = gromas_lieferscheins.lieferschein
                                     LEFT JOIN buch__kopfs ON buch__kopfs.id = buch__positionens.buch_kopf_id
                                     WHERE buch__kopfs.buchungsnummer IS NULL
+                                    AND gromas_lieferscheins.liefertag BETWEEN :von AND :bis
                                     GROUP BY gromas_lieferscheins.kundenname
-                                    ORDER BY 1");
+                                    ORDER BY 1",  ["von" => $von, "bis" => $bis]);
 
         $prozentual_gemeldet_nach_direktlieferant = DB::select("SELECT 
                                                                     *,
@@ -71,12 +77,14 @@ class HomeController extends Controller
                                                                         FROM gromas_lieferscheins 
                                                                         LEFT JOIN buch__positionens ON buch__positionens.ls_nummer = gromas_lieferscheins.lieferschein
                                                                         LEFT JOIN buch__kopfs ON buch__kopfs.id = buch__positionens.buch_kopf_id
-                                                                        WHERE gromas_lieferscheins.direktlieferant_nummer = Direktnummer AND buch__kopfs.buchungsnummer IS NULL) AS anzahl
+                                                                        WHERE gromas_lieferscheins.direktlieferant_nummer = Direktnummer AND buch__kopfs.buchungsnummer IS NULL
+                                                                        AND gromas_lieferscheins.liefertag BETWEEN :von AND :bis) AS anzahl
                                                                 FROM gromas_lieferscheins AS LS
                                                                 LEFT JOIN buch__positionens ON buch__positionens.ls_nummer = LS.lieferschein
                                                                 LEFT JOIN buch__kopfs ON buch__kopfs.id = buch__positionens.buch_kopf_id
+                                                                WHERE LS.liefertag BETWEEN :von2 AND :bis2
                                                                 GROUP BY lieferant, Direktnummer) temp
-                                                                ORDER BY Prozent DESC");
+                                                                ORDER BY Prozent DESC",  ["von" => $von, "bis" => $bis, "von2" => $von, "bis2" => $bis]);
 
 
         # erstellen BarChart Strings mit Namen der Direktlieferanten
@@ -119,7 +127,9 @@ class HomeController extends Controller
             'barchart_count' => $barchart_count,
             'prozent_color' => get_color($ls_prozent),
             'barchart_direktlieferant_namen' => $barchart_direktlieferant_namen,
-            'barchart_direktlieferant_prozent' => $barchart_direktlieferant_prozent
+            'barchart_direktlieferant_prozent' => $barchart_direktlieferant_prozent,
+            'von' => $von,
+            'bis' => $bis
         ]);
     }
 

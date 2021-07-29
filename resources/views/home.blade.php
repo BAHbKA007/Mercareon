@@ -4,9 +4,27 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-12">
+            
             <div class="card">
-                <div class="card-header">{{ __('Dashboard') }}</div>
+                <div class="card-header">
+                    <h1>Dashboard</h1>
 
+                    <form class="row g-3" method="GET" action="/home">
+                        <div class="col-md-6">
+                            <label for="inputEmail4" class="form-label">von:</label>
+                            <input type="date" class="form-control" id="von" name="von" {{$von != '1970-01-01' ? "value=$von" : ''}}>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="inputPassword4" class="form-label">bis:</label>
+                            <input type="date" class="form-control" id="bis" name="bis" {{$bis != '2999-01-01' ? "value=$bis" : ''}}>
+                        </div>
+                        <div class="col-12" style="margin-top: 10px;">
+                            <button type="submit" class="btn btn-primary">eingrenzen</button>
+                        </div>
+                    </form>
+
+
+                </div>
                 <div class="card-body">
                     @if (session('status'))
                         <div class="alert alert-success" role="alert">

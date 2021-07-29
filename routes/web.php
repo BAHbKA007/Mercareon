@@ -24,6 +24,7 @@ Auth::routes([
   ]);
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+#Route::get('/home/{von?}/{bis?}', [App\Http\Controllers\HomeController::class, 'index']);
 Route::get('/uebersicht', [App\Http\Controllers\HomeController::class, 'uebersicht'])->name('uebersicht');
 
 Route::post('/', [App\Http\Controllers\BuchPositionenController::class, 'store']);
