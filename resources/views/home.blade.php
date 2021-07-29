@@ -32,12 +32,12 @@
                                     <canvas id="bar-chart"></canvas>
                                 </div>
                             </div><br>
-                            <div class="card">
-                                <div class="card-body">
-                                    <h5 class="card-title">prozentual gemeldet nach Lieferant</h5>
-                                    <canvas id="bar-chart-direktlieferant"></canvas>
-                                </div>
-                            </div>
+                        </div>
+                    </div><br>
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">prozentual gemeldet nach Lieferant</h5>
+                            <canvas id="bar-chart-direktlieferant"></canvas>
                         </div>
                     </div>
                 </div>
@@ -100,6 +100,7 @@
         },
         options: {
             indexAxis: 'y',
+            responsive:true,
             legend: { display: false },
             title: {
                 display: false,
