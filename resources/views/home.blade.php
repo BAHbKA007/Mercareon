@@ -34,7 +34,7 @@
 
                     <div class="row">
                         <div class="col-sm-6">
-                            <div class="card">
+                            <div class="card" style="margin-bottom: 10px">
                                 <div class="card-body">
                                     <h5 class="card-title">gemeldete Lieferscheine</h5>
                                     <h1 style="color:{{$prozent_color}}" class="card-title">{{$ls_prozent}}%</h1>
@@ -43,15 +43,15 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-sm-6">
+                        <div class="col-sm-6" style="margin-bottom: 10px">
                             <div class="card">
                                 <div class="card-body">
                                     <h5 class="card-title">fehlende Meldungen nach Lager</h5>
                                     <canvas id="bar-chart"></canvas>
                                 </div>
-                            </div><br>
+                            </div>
                         </div>
-                    </div><br>
+                    </div>
                     <div class="card">
                         <div class="card-body">
                             <h5 class="card-title">prozentual gemeldet nach Gromas Direktlieferant</h5>
