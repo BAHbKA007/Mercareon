@@ -36,7 +36,7 @@
                     </div><br>
                     <div class="card">
                         <div class="card-body">
-                            <h5 class="card-title">prozentual gemeldet nach Lieferant</h5>
+                            <h5 class="card-title">prozentual gemeldet nach Gromas Direktlieferant</h5>
                             <canvas id="bar-chart-direktlieferant"></canvas>
                         </div>
                     </div>
