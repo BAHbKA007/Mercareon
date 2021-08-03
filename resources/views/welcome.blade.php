@@ -4,7 +4,10 @@
 
 @if(Session::has('message'))
 <div style="position:fixed;z-index: 999; top:0; left:50%;transform:translateX(-50%);" class="alert {{ Session::get('alert-class', 'alert-info') }}" id="alert" role="alert">
-    {{ Session::get('message') }}
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+    {!! Session::get('message') !!}
 </div>
 @endif
 
@@ -15,21 +18,21 @@
                 <div class="card-header">Informationen erfassen</div>
 
                 <div class="card-body">
-                    <form method="POST" action="/">
+                    <form method="POST" action="/" onsubmit='disableButton()'>
                         @csrf
                         <div class="form-row">
                             <div class="form-group col-md-6">
                                 <label for="Name">Ihr Name:</label>
-                                <input type="text" class="form-control" id="Name" name="name" placeholder="Max" required>
+                                <input type="text" class="form-control" id="Name" name="name" placeholder="Max" required value="{{ old('name') }}">
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="spedition">Spedition/Firma:</label>
-                                <input type="text" class="form-control" id="Spedition" name="spedition" placeholder="..." required>
+                                <input type="text" class="form-control" id="Spedition" name="spedition" placeholder="..." required value="{{ old('spedition') }}">
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="inputAddress">Mercareon Buchungsnummer:</label>
-                            <input type="number" class="form-control" id="buchungsnummer" name="buchungsnummer" placeholder="..." required>
+                            <input type="number" class="form-control" id="buchungsnummer" name="buchungsnummer" placeholder="..." required value="{{ old('buchungsnummer') }}">
                         </div>
                         <br>
                         <hr>
@@ -44,8 +47,8 @@
                             </div>
                         </div>
                         <br><br>
-                        <button type="submit" class="btn btn-primary">absenden</button>
-                      </form>
+                        <button id="btn" type="submit" class="btn btn-primary">absenden</button>
+                    </form>
                 </div>
             </div>
         </div>
@@ -73,9 +76,15 @@
     }
 
     window.setTimeout(function() {
-    $(".alert").fadeTo(500, 0).slideUp(500, function(){
+    $(".alert").slideUp(500, function(){
         $(this).remove(); 
         });
-    }, 4000);
+    }, 10000);
+
+    function disableButton() {
+        var btn = document.getElementById('btn');
+        btn.disabled = true;
+        btn.innerText = 'senden...'
+    }
 </script>
 @endsection

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Redirect;
 use App\Models\Buch_Kopf;
 use App\Models\Buch_Positionen;
 use Illuminate\Http\Request;
@@ -46,11 +47,27 @@ class BuchPositionenController extends Controller
         $i = 0;
 
         foreach ($request->lieferscheine as $item) {
-            $buch_pos = new Buch_Positionen;
-            $buch_pos->buch_kopf_id = $id;
-            $buch_pos->ls_nummer = $item;
-            $buch_pos->save();
-            $i++;
+            if (Buch_Positionen::where('ls_nummer', $item)->exists()) {
+                
+                $buch_kopf_delete = Buch_Kopf::find($id);
+                $buch_kopf_delete->delete();
+                
+                Session::flash('message', 
+                "<h1>Bitte kontrollieren Sie ihre eingabe.</h1>
+                Lieferschein $item bereits in einer früheren Buchung erfasst:<br><br>
+                <div>Name: $buch_kopf_delete->name</div>
+                <div>Spedition: $buch_kopf_delete->spedition</div>
+                <div>Buchungsnummer: $buch_kopf_delete->buchungsnummer</div>"); 
+                Session::flash('alert-class', 'alert-danger');
+
+                return back()->withInput();
+            } else {
+                $buch_pos = new Buch_Positionen;
+                $buch_pos->buch_kopf_id = $id;
+                $buch_pos->ls_nummer = $item;
+                $buch_pos->save();
+                $i++;
+            }
         }
         
         Session::flash('message', "$i Lieferschein(e) wurden erfolgreich erfasst!"); 
