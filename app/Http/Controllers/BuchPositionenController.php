@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Redirect;
 use App\Models\Buch_Kopf;
 use App\Models\Buch_Positionen;
+use App\Models\gromas_lieferschein;
 use Illuminate\Http\Request;
 use Session;
 
@@ -61,6 +62,19 @@ class BuchPositionenController extends Controller
                 Session::flash('alert-class', 'alert-danger');
 
                 return back()->withInput();
+
+            } elseif (!gromas_lieferschein::where('lieferschein', $item)->exists()) {
+                $buch_kopf_delete = Buch_Kopf::find($id);
+                $buch_kopf_delete->delete();
+                
+                Session::flash('message', 
+                "<h1>Bitte kontrollieren Sie ihre eingabe.</h1>
+                Lieferschein $item existiert nicht in Gromas <br>
+                <small>Die Synchronisierung der Gromas Lieferscheine erfolgt jede halbe Stunde, evtl. wurde der von Ihnen eingegebene Lieferschein noch nicht synchronisiert.</small>"); 
+                Session::flash('alert-class', 'alert-danger');
+
+                return back()->withInput();
+
             } else {
                 $buch_pos = new Buch_Positionen;
                 $buch_pos->buch_kopf_id = $id;
